@@ -1,6 +1,8 @@
 # claude
 
-Standing instructions for Claude Code, split by how far they travel.
+Standing instructions and skills for Claude Code.
+
+`prompts/` is loaded on every session, so it is split by how far each part travels:
 
 - `generic.md` — how to write and how to work: communication, wording, code comments,
   scaffolding. Nothing in it is specific to a project, a company or a person.
@@ -11,10 +13,16 @@ Standing instructions for Claude Code, split by how far they travel.
 The split is the point. `generic.md` is the half worth reading if none of the rest
 applies to you, and `personal.md` is the half that can never be shared.
 
+`skills/` is loaded only when a task calls for it — `clickhouse-pr-description`,
+`clickhouse-pr-review`, `reports`, `test-debug-fix`. A procedure with an obvious
+trigger belongs here rather than in `prompts/`, where it would be paid for on every
+session. A rule that has to shape output without anyone thinking to fetch it does not:
+nobody invokes a skill before writing a code comment.
+
 ## Install
 
-`./install.sh` copies the three files into `~/.claude/prompts/`, and `CLAUDE.md.in`
-to `~/.claude/CLAUDE.md`, which is what imports them:
+`./install.sh` copies `prompts/` and `skills/` into `~/.claude/`, and `CLAUDE.md.in`
+to `~/.claude/CLAUDE.md`, which is what imports the prompts:
 
 ```
 @prompts/generic.md
