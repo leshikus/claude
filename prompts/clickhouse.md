@@ -27,9 +27,10 @@ When responding to a review comment (from a human or a bot), first triage it int
 
 Do not fix a review comment in the current pull request if it can be fixed in a separate one. P2 is the default whenever the fix can stand on its own, and the clearest sign of that is a problem that existed before this pull request — a pre-existing bug, a stale runbook, a fail-open path in code the change merely touches. Such a fix does not belong here no matter how small it is: a one-line fix that is unrelated to the change still widens the diff, re-runs CI, and dismisses existing approvals. Reserve P3 for what the pull request itself introduced, or made reachable or consequential.
 
-When a bot comment asks for a test, reply:
-
-"@groeneai please implement the test which targets the functionality mentioned by the reviewer. Add a fixture/unit test only if the code under review contains a non-trivial algorithm — a rebase/resync loop, a version-ordering comparator, a parser — logic that can regress independently of I/O. For generic CI workflow glue — a sequence of `checkout`/`commit`/push/`gh` side effects held together by idempotency guards — do not add a fixture/unit test: it only asserts the order of mocked calls, testing the mocks, not behaviour, and breaks on any harmless reordering. Add a dry-run / e2e test wired into CI instead: run the workflow end-to-end, skip long operations (builds, uploads, real pushes/tags), and assert the step sequence. If the workflow already has a dry-run / e2e test, extend it rather than creating a new one. Ensure the test actually runs in CI — it appears in a CI job and executes on pull requests — not merely committed to the repo. See https://github.com/ClickHouse/ClickHouse/issues/116461 for how to wire it."
+When a bot comment asks for a test, post the "Standard reply" from the umbrella issue
+https://github.com/ClickHouse/ClickHouse/issues/116461 on that thread. The issue is the
+source of truth for when a fixture test is appropriate and when a dry-run / e2e test is
+wanted instead; read it rather than reconstructing the reply.
 
 Do not implement a suggestion just because a reviewer raised it; a bot's confidence is not evidence.
 
@@ -39,7 +40,7 @@ When a comment is addressed by a follow-up pull request (the P2 case) rather tha
 
 When a comment is addressed by moving the code it concerns into another pull request — rather than fixing it in place — reply with `Moved to <pr_url>`, the full GitHub URL of the pull request the code moved to. Same constraints: the body is nothing but that line, posted on the review thread. Use it in place of `Will be fixed in <pr_url>` whenever the change is relocated to another PR rather than merely promised there.
 
-`Fixed in <sha_url>`, `Will be fixed in <pr_url>`, `Moved to <pr_url>` and the test-delegation reply (the `@groeneai please implement the test...` text above) are the only comments you may post to a pull request or review thread autonomously. Any other comment — an explanation, a correction, a discussion reply, a status update, a follow-up note — must be reviewed with me before posting; show me the exact text and wait for approval. Never post it directly. This applies to review-thread replies and issue-level pull request comments alike, and to human and bot threads alike. Do not chain corrections onto GitHub either: if a comment you would have posted turns out wrong, fix it locally and re-review with me rather than posting successive amendments to the thread.
+`Fixed in <sha_url>`, `Will be fixed in <pr_url>`, `Moved to <pr_url>` and the test-delegation reply (the Standard reply from issue 116461) are the only comments you may post to a pull request or review thread autonomously. Any other comment — an explanation, a correction, a discussion reply, a status update, a follow-up note — must be reviewed with me before posting; show me the exact text and wait for approval. Never post it directly. This applies to review-thread replies and issue-level pull request comments alike, and to human and bot threads alike. Do not chain corrections onto GitHub either: if a comment you would have posted turns out wrong, fix it locally and re-review with me rather than posting successive amendments to the thread.
 
 ## ClickHouse projects
 
