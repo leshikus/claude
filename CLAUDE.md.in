@@ -1,0 +1,8 @@
+# Standing instructions
+
+Maintained in https://github.com/leshikus/claude and installed by its `install.sh`.
+Edit the files there, not these copies.
+
+@prompts/generic.md
+@prompts/clickhouse.md
+@prompts/personal.md

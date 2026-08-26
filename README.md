@@ -13,14 +13,19 @@ applies to you, and `personal.md` is the half that can never be shared.
 
 ## Install
 
-`./install.sh` copies the three files into `~/.claude/prompts/`, where
-`~/.claude/CLAUDE.md` imports them:
+`./install.sh` copies the three files into `~/.claude/prompts/`, and `CLAUDE.md.in`
+to `~/.claude/CLAUDE.md`, which is what imports them:
 
 ```
 @prompts/generic.md
 @prompts/clickhouse.md
 @prompts/personal.md
 ```
+
+The wrapper is committed too, because without it nothing loads any of this. It is named
+`.in` so that working in this repository does not pick it up as project instructions,
+where those relative paths do not resolve. An existing wrapper is kept as
+`~/.claude/CLAUDE.md.bak`.
 
 Copies, not symlinks, and under `~/.claude/` rather than imported from here directly.
 Both constraints come from running Claude Code in a container: `~/.claude` is mounted
