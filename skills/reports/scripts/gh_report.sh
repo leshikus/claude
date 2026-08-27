@@ -93,7 +93,7 @@ pr_row() {
         ([.reviews.nodes[] | select(.state == \"APPROVED\") | .author.login] | unique | join(\",\")),
         ([.reviews.nodes[] | select(.state == \"CHANGES_REQUESTED\") | .author.login] | unique | join(\",\")),
         ([.reviews.nodes[] | select(.state != \"PENDING\") | .author.login | select(. != \$login and . != \$pr_author and ((. | bot) | not))] | unique | join(\",\")),
-        ([.reviewThreads.nodes[] | select(.isResolved | not)] | length | tostring),
+        ([.reviewThreads.nodes[] | select(.isResolved | not) | select((.comments.nodes[0].author.login | bot) | not)] | length | tostring),
         (\$reply_threads | tostring), (\$mention_replies | tostring),
         \$mine, (\$other.createdAt // \"\"), (\$other.login // \"\"),
         (.mergedAt // \"\"),
