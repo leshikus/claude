@@ -13,6 +13,31 @@ Three reports, one collector script. All output goes to `~/repos/reports/`.
 | daily   | `daily.txt`   | What moved since 13:00 Munich yesterday?              |
 | weekly  | `weekly.txt`  | What landed between Monday 13:00 and Monday 13:00?    |
 
+## The focus task
+
+One issue at a time is *the* thing Max is watching, and it changes. It is recorded as a
+URL in `~/repos/reports/focus.txt`:
+
+```bash
+cat ~/repos/reports/focus.txt    # e.g. https://github.com/ClickHouse/clickhouse-private/issues/66856
+```
+
+Read it at the start of every report. If the file is missing or empty, omit the Focus
+section entirely rather than guessing which task is meant — a wrong focus is worse than
+none, because the section is the one Max reads first.
+
+Pull its state and everything that referenced it:
+
+```bash
+gh issue view <n> --repo <owner/repo> --json title,state,url,comments
+gh api repos/<owner>/<repo>/issues/<n>/timeline --paginate \
+  -q '.[] | select(.event=="cross-referenced") | .source.issue | "\(.html_url) \(.title)"'
+```
+
+The timeline's cross-references are what make this a progress report rather than a link:
+they are the pull requests that claim to move the task. Apply the same window cutoff to
+them as to everything else.
+
 ## Collecting the data
 
 ```bash
@@ -26,7 +51,7 @@ Column notes:
 
 - `checks` is the rollup over the head commit only: `SUCCESS`, `FAILURE`, `PENDING`, `ERROR`, or `NONE` when no run exists for that commit.
 - `mergeable` is `UNKNOWN` until GitHub computes it in the background — re-run the script rather than reporting a conflict.
-- `unresolved` counts open review threads regardless of who opened them; `clickhouse-gh` raises most of them.
+- `unresolved` counts open review threads a human opened. Bot-raised threads are excluded, `clickhouse-gh` above all, so the number is review debt somebody is actually waiting on.
 - `human_reviews` lists everyone who has already submitted a review, excluding leshikus, the PR author (authors review their own PRs by replying to threads) and bots. `clickhouse-gh` counts as a bot here even though its review author login carries no `[bot]` suffix.
 - `reply_threads` counts review threads leshikus has commented in where another human spoke last. This is the precise "you owe an answer" signal.
 - `mentions` counts human comments that write `@leshikus` anywhere on the PR.
@@ -116,6 +141,15 @@ The filter is strict. A still-open PR with no activity inside the window is excl
 <title>
 <status note>
 
+## Focus: <issue title>
+
+<issue URL>
+
+<one line: where the task stands now>
+<one line per PR or comment that moved it inside the window, URL then what it changed>
+Blocked on: <what is stopping it, or omit the line>
+Next: <the next concrete step>
+
 ## Updated Issues
 
 <URL>
@@ -139,7 +173,25 @@ Open | Closed
 <title>
 ```
 
-Waiting for @Max review holds open PRs with no human approval where `maxknv` is a requested reviewer, drafts included. Every other PR still awaiting review — no reviewer requested, or somebody else requested — goes to In Progress. Status notes on unmerged PRs start with `Draft: <what the body says was done>` for drafts, `Testing` when a human has approved, and no label otherwise — never name the approver. Merged entries carry no note.
+Each PR appears in exactly one section, and the sections claim them in the order they
+are printed: **Waiting for @Max review, then Focus, then In Progress.** A PR that would
+have gone to In Progress and is cross-referenced by the focus issue belongs to Focus
+instead — that is the point of the section, and listing it twice makes the report
+longer without saying more. One awaiting Max's review stays in his review list, because
+that is what he acts on rather than reads.
+
+Waiting for @Max review holds open PRs with no human approval where `maxknv` is a requested reviewer, drafts included. Every other PR still awaiting review — no reviewer requested, or somebody else requested — goes to In Progress, unless Focus has already claimed it. Status notes on unmerged PRs start with `Draft: <what the body says was done>` for drafts, `Testing` when a human has approved, and no label otherwise — never name the approver. Merged entries carry no note.
+
+Focus reports progress on the issue named in `focus.txt`, and it is the section Max
+reads for status, so it says where the task stands rather than listing links. "Where it
+stands" is a sentence someone can act on — what is done, what is not — not a restatement
+of the title. Movement inside the window comes from the issue's own comments and from
+cross-referenced pull requests, which Focus lists in full rather than leaving to In
+Progress; when nothing moved, say so in one line and keep
+`Blocked on:` and `Next:`, which are the part that does not depend on the window.
+
+Omit the whole section when `focus.txt` is absent. Never substitute a task of your own
+choosing.
 
 Reviews holds other people's PRs that leshikus reviewed or commented on inside the window, from the `REVIEWED` section. The same two filters the weekly report needs apply here, and the timestamp check matters more at a one-day window: drop bot- and robot-fronted authors, and drop PRs where leshikus' own review or comment landed before the cutoff. Use the `gh api` calls listed under the weekly report to check the real timestamps.
 
