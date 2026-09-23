@@ -10,6 +10,10 @@ Reviews are under 100 words by default — both the review text posted to GitHub
 
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
 
+## Answering a review comment
+
+Answer with the consequence, not the mechanism the reviewer can already read in the diff: what happens and who must act, in plain English, in one sentence. Drop identifiers that only restate the code. When the reviewer's premise is that an intended behaviour is a defect, rebut by asserting the intended behaviour and that the implementation conforms — "When the marker cannot be updated, reporting an error is the expected behaviour, and the implementation does exactly that" — rather than describing the outcome and leaving room for "and that is still bad".
+
 ## Minimum number of words
 
 Use the fewest words that carry the fact. Delete any clause whose removal loses no information — "that every contributor can already read", "which someone has to keep working", "three specific things", "it is worth noting that", "actually", "in particular". Prefer the shorter form of what survives: "Pinning changes three things" over "Pinning simplifies three specific things". This applies to RFCs, design docs, issues, pull request descriptions, commit messages and chat replies alike.
