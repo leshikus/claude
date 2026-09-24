@@ -16,10 +16,6 @@ Explain the general shape of a problem before any of its specifics: no file, set
 
 The opening has to read as true of any system with that defect. "An inner deadline is shorter than the outer one, and expiring it is not reported as failure" travels; "`lock_acquire_timeout_for_background_operations` is 120 s" does not.
 
-## Never use the paragraph symbol
-
-Do not write `§`. Refer to a section by name — "see Risks", "appendix B", "Phase 1", "Open questions 1" — or by number in words, "section 6". This applies everywhere: RFCs, design docs, issues, pull request descriptions, commit messages, chat replies.
-
 ## Disclaimers go in the first two sentences
 
 Every caveat about the text itself — durations are estimates, counts are provisional, a section is a draft, a measurement is unverified — goes in the first two sentences of the document, stated once and covering everything it applies to. Two sentences is the budget, not a slot to fill: where the caveats do not fit, cut the weakest instead of writing a third sentence. Never repeat one beside the individual figure later: a caveat attached to one number casts doubt on every number that lacks one. Where the uncertainty is real and specific, name what the number depends on instead of announcing that it is uncertain.
