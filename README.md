@@ -4,8 +4,10 @@ Standing instructions and skills for Claude Code.
 
 `prompts/` is loaded on every session, so it is split by how far each part travels:
 
-- `generic.md` — how to write and how to work: communication, wording, code comments,
+- `generic.md` — how to work: communication, questions, issues, code comments,
   scaffolding. Nothing in it is specific to a project, a company or a person.
+- `technical-language.md` — how to word any text: RFCs, issues, PR descriptions,
+  commit messages, reviews, chat replies. Equally generic.
 - `clickhouse.md` — workflow for the ClickHouse repositories: reports, the
   review-comment protocol, PR selection, fork vs upstream.
 - `personal.md` — account name, where repositories live, commit identity.
@@ -26,6 +28,7 @@ to `~/.claude/CLAUDE.md`, which is what imports the prompts:
 
 ```
 @prompts/generic.md
+@prompts/technical-language.md
 @prompts/clickhouse.md
 @prompts/personal.md
 ```

@@ -4,5 +4,6 @@ Maintained in https://github.com/leshikus/claude and installed by its `install.s
 Edit the files there, not these copies.
 
 @prompts/generic.md
+@prompts/technical-language.md
 @prompts/clickhouse.md
 @prompts/personal.md
