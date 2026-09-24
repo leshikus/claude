@@ -4,7 +4,9 @@ How to write RFCs, design docs, issues, pull request descriptions, commit messag
 
 ## A heading matches its content
 
-A heading names the question the reader brings, and everything under it answers that question. Move what does not answer it to a section of its own, or widen the heading. For a design that keeps two things equal, the reader asks when they are equal: "When critical files are identical", answered by the steps from a change to equality, not "How changes cross between repositories".
+A heading answers the question the reader brings, and everything under it supports that answer. Move what does not to a section of its own, or change the heading.
+
+For a design, the heading states the claim and when it holds: "Critical files are identical at each release sync", not "When critical files are identical" or "How changes cross between repositories". Under it, list in order every step that makes the claim true, including steps outside the change (a person's action, a missing block), and say what breaks without each.
 
 ## Absolute words are claims
 
