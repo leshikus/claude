@@ -2,6 +2,10 @@
 
 How to write RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies.
 
+## A heading matches its content
+
+Everything under a heading answers it. Move what does not to a section of its own, or widen the heading to cover it. Test each paragraph and list item against the heading read as a question: "How public and private files stay identical" is answered by the directions changes travel in, not by which commit a branch starts from or how often a job runs.
+
 ## Minimum number of words
 
 Use the fewest words that carry the fact. Delete any clause whose removal loses no information — "that every contributor can already read", "which someone has to keep working", "three specific things", "it is worth noting that", "actually", "in particular". Prefer the shorter form of what survives: "Pinning changes three things" over "Pinning simplifies three specific things". This applies to RFCs, design docs, issues, pull request descriptions, commit messages and chat replies alike.
