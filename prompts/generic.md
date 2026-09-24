@@ -8,7 +8,7 @@ Always post the full URL whenever you reference a pull request or a GitHub Actio
 
 Reviews are under 100 words by default — both the review text posted to GitHub and the summary reported in chat. Lead with the finding; drop the preamble, the walk-through of the diff, and the closing summary. Go longer only when explicitly asked.
 
-Open every review with three paragraphs, before the first finding, each 30 words or fewer: the general shape of the defect, named without any identifier from this change (see Name the mechanism before the case); the problem the change solves; and how dangerous the fix is — blast radius, what breaks if it is wrong. Write all three from the diff even where the body already says it; they show the author that the review read the right change. They sit outside the 100-word budget.
+Open every review with three paragraphs, before the first finding, each 30 words or fewer: the general shape of the defect, named without any identifier from this change (see Name the problem before the case in `technical-language.md`); the problem the change solves; and how dangerous the fix is — blast radius, what breaks if it is wrong. Write all three from the diff even where the body already says it; they show the author that the review read the right change. They sit outside the 100-word budget.
 
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
 

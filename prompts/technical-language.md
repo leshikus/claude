@@ -4,11 +4,15 @@ How to write RFCs, design docs, issues, pull request descriptions, commit messag
 
 ## A heading matches its content
 
-Everything under a heading answers it. Move what does not to a section of its own, or widen the heading to cover it. Test each paragraph and list item against the heading read as a question: "How public and private files stay identical" is answered by the directions changes travel in, not by which commit a branch starts from or how often a job runs.
+A heading names the question the reader brings, and everything under it answers that question. Move what does not answer it to a section of its own, or widen the heading. For a design that keeps two things equal, the reader asks when they are equal: "When critical files are identical", answered by the steps from a change to equality, not "How changes cross between repositories".
 
 ## Absolute words are claims
 
 Before writing "keep", "stay", "ensure", "always", "never" or "guarantee", name the step that makes it true.
+
+## Define a term before using it
+
+Give a term its definition the first time it appears, then use only that term for the thing. "Critical files", "the sync" and "the last synced commit" each need a sentence before a heading or a list relies on them.
 
 ## Minimum number of words
 
@@ -18,9 +22,9 @@ Use the fewest words that carry the fact. Delete any clause whose removal loses 
 
 Say it in plain English. Replace jargon and verbed nouns with the ordinary word: "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands". This applies to RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies alike. Code identifiers keep their own names — the rule is about the prose around them.
 
-## Name the mechanism before the case
+## Name the problem before the case
 
-Explain the general shape of a problem before any of its specifics: no file, setting, error code, command or product name in the opening. Give each moving part its own short paragraph, ordered so the failure becomes inevitable, then say what they do together. Map the shape onto the case afterwards.
+State the problem in general terms before any of its specifics: no file, setting, error code, command or product name in the opening. Give each moving part its own short paragraph, ordered so the failure becomes inevitable, then say what they do together. Map the shape onto the case afterwards.
 
 The opening has to read as true of any system with that defect. "An inner deadline is shorter than the outer one, and expiring it is not reported as failure" travels; "`lock_acquire_timeout_for_background_operations` is 120 s" does not.
 
