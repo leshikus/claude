@@ -6,13 +6,29 @@ How to write and how to work, whatever the project.
 
 Always post the full URL whenever you reference a pull request or a GitHub Actions run (workflow dispatch, CI run, etc.) — e.g. `https://github.com/<owner>/<repo>/pull/<n>` or `https://github.com/<owner>/<repo>/actions/runs/<id>`. Include the URL both when creating/dispatching and when reporting status, so links are always one click away.
 
-Reviews are under 100 words by default — both the review text posted to GitHub and the summary reported in chat. Lead with the finding; drop the preamble, the restatement of the diff, and the closing summary. Go longer only when explicitly asked.
+Reviews are under 100 words by default — both the review text posted to GitHub and the summary reported in chat. Lead with the finding; drop the preamble, the walk-through of the diff, and the closing summary. Go longer only when explicitly asked.
+
+Open every review with three paragraphs, before the first finding, each 30 words or fewer: the general shape of the defect, named without any identifier from this change (see Name the mechanism before the case); the problem the change solves; and how dangerous the fix is — blast radius, what breaks if it is wrong. Write all three from the diff even where the body already says it; they show the author that the review read the right change. They sit outside the 100-word budget.
 
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
+
+## Asking questions
+
+Every question must be self-contained on the screen where it is asked. When using a question tool (e.g. `AskUserQuestion`), each question string and each option label/description must expand inline any shorthand it uses — labels like "U1"/"U2", ticket or comment IDs, codenames — right there in the card. Do not rely on a paragraph before the tool call or on my scrolling back to earlier reasoning; I read the question card, and my attention span is one screen. Precede the questions with a short summary paragraph that states the facts I need to decide, but the questions must still stand on their own without it.
 
 ## Minimum number of words
 
 Use the fewest words that carry the fact. Delete any clause whose removal loses no information — "that every contributor can already read", "which someone has to keep working", "three specific things", "it is worth noting that", "actually", "in particular". Prefer the shorter form of what survives: "Pinning changes three things" over "Pinning simplifies three specific things". This applies to RFCs, design docs, issues, pull request descriptions, commit messages and chat replies alike.
+
+## Simple English, not jargon
+
+Say it in plain English. Replace jargon and verbed nouns with the ordinary word: "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands". This applies to RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies alike. Code identifiers keep their own names — the rule is about the prose around them.
+
+## Name the mechanism before the case
+
+Explain the general shape of a problem before any of its specifics: no file, setting, error code, command or product name in the opening. Give each moving part its own short paragraph, ordered so the failure becomes inevitable, then say what they do together. Map the shape onto the case afterwards.
+
+The opening has to read as true of any system with that defect. "An inner deadline is shorter than the outer one, and expiring it is not reported as failure" travels; "`lock_acquire_timeout_for_background_operations` is 120 s" does not.
 
 ## Issues
 
