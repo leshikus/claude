@@ -8,6 +8,10 @@ A heading answers the question the reader brings, and everything under it suppor
 
 For a design, the heading states the claim and when it holds: "Critical files are identical at each release sync", not "When critical files are identical" or "How changes cross between repositories". Under it, list in order every step that makes the claim true, including steps outside the change (a person's action, a missing block), and say what breaks without each.
 
+## An architecture section is an enumerated list
+
+An architecture or design section is a numbered list of the most important technical matters, one per item: a bold name, then what it is and what breaks without it. Not a narrative, and not a step-by-step procedure; the order of steps goes in a diagram. Name an unsolved matter as an item too, and point it at an open question instead of leaving it out.
+
 ## Absolute words are claims
 
 Before writing "keep", "stay", "ensure", "always", "never" or "guarantee", name the step that makes it true.
