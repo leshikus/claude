@@ -10,6 +10,8 @@ Reviews are under 100 words by default — both the review text posted to GitHub
 
 Open every review with three paragraphs, before the first finding, each 30 words or fewer: the general shape of the defect, named without any identifier from this change (see Name the problem before the case in `technical-language.md`); the problem the change solves; and how dangerous the fix is — blast radius, what breaks if it is wrong. Write all three from the diff even where the body already says it; they show the author that the review read the right change. They sit outside the 100-word budget.
 
+Check every review comment before it goes into the draft: turn the comment into an open question to the author ("there is a problem X" becomes "how do you plan to overcome X?"), have two subagents on different models answer it independently from the code, and keep the comment only if the question still stands after both answers. Drop it when either answer shows the code already overcomes X.
+
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
 
 ## Asking questions
