@@ -24,9 +24,17 @@ Give a term its definition the first time it appears, then use only that term fo
 
 Use the fewest words that carry the fact. Delete any clause whose removal loses no information — "that every contributor can already read", "which someone has to keep working", "three specific things", "it is worth noting that", "actually", "in particular". Prefer the shorter form of what survives: "Pinning changes three things" over "Pinning simplifies three specific things". This applies to RFCs, design docs, issues, pull request descriptions, commit messages and chat replies alike.
 
-## Simple English, not jargon
+## Simplified Technical English (ASD-STE100)
 
-Say it in plain English. Replace jargon and verbed nouns with the ordinary word: "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands". This applies to RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies alike. Code identifiers keep their own names — the rule is about the prose around them.
+Write in ASD-STE100 Simplified Technical English where it fits. It applies to RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies alike:
+
+- One word, one meaning: use the ordinary word, not jargon or a verbed noun — "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands" — and do not use one word for two things.
+- Sentences of at most 20 words for instructions and 25 for descriptions; one topic per sentence and at most six sentences per paragraph.
+- Active voice and simple tenses: "the job deletes the file", not "the file is being deleted".
+- One instruction per sentence, in the imperative: "Add the label. Then run the workflow."
+- Keep the articles ("the", "a") and do not use an "-ing" word as a noun.
+
+Code identifiers, product names, technical names and verbatim quotations keep their own form; the rules cover the prose around them. Where a rule would lose a fact or force an awkward sentence, keep the fact.
 
 ## Name the problem before the case
 
