@@ -70,3 +70,7 @@ Instead write a real end-to-end test that exercises the actual path: run the rea
 Before writing any test, ask first whether the check can be an assert added where the code already runs — in an existing real test, or in the code itself — rather than a new test that re-creates the setup.
 
 When a reviewer asks for a filter that would silently drop unexpected input, prefer asserting that the input is what we expect — shorter, and it surfaces the operator error instead of hiding it. This is the "avoid fallback paths" rule applied to review feedback: a filter is a fallback.
+
+## Moving code
+
+When a refactoring moves methods, choose the destination for each method separately. Put the method in the module whose subject it is, not in the file that the caller already imports: a generic git query goes to the git helper, not to the script that uses it. A framework module (for ClickHouse, `ci/praktika/`) gets only code that does not name the project or its processes, such as sync, backport or release.
