@@ -115,7 +115,9 @@ file/module that anchors the concern.>
 
 ### Draft review
 
-<Bullet list of concrete observations *in priority order*:
+<Open with the two restatements the generic rules require — the problem the change
+solves in 30 words or fewer, then how dangerous the fix is in 30 words or fewer —
+then the bullet list of concrete observations *in priority order*:
 1. Architectural / approach-level questions first (if not fully covered above).
 2. Correctness / safety / concurrency bugs.
 3. Test quality (right level? regression covers the actual property?).

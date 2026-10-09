@@ -10,6 +10,15 @@ When asked for any of them, invoke the `reports` skill (via the Skill tool) — 
 
 The monitor asks on a schedule for two picks out of the same actionable set as `morning.txt` — the oldest item waiting on me, and the highest-priority one — and wants only the labelled URLs back. Build the set the same way: run `~/.claude/skills/reports/scripts/gh_report.sh morning` and apply the skill's signal-to-action rules. The highest pick is the item that ordering puts first, by the same "what to finish first" judgment the morning report uses. Repositories outside the ClickHouse organisation are out of scope.
 
+When asked which pull requests are waiting on my review and nobody else's, run the same collector and keep the `REVIEW_REQUESTED` rows whose `human_reviews` is empty:
+
+```bash
+~/.claude/skills/reports/scripts/gh_report.sh morning |
+    awk -F'\t' '/^# /{s=$1} s=="# REVIEW_REQUESTED" && !/^# / && $11==""'
+```
+
+`human_reviews` excludes me, the author and bots, so an empty eleventh column means nobody else has looked. `review-requested:` on its own cannot tell that, so do not hand-assemble the query.
+
 ## Processing review comments
 
 Use the `review-comments` skill (via the Skill tool) for every review comment on my pull requests: triage, patches, the decision words and the reply forms live there.

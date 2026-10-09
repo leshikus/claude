@@ -8,13 +8,21 @@ Always post the full URL whenever you reference a pull request or a GitHub Actio
 
 Reviews are under 100 words by default — both the review text posted to GitHub and the summary reported in chat. Lead with the finding; drop the preamble, the walk-through of the diff, and the closing summary. Go longer only when explicitly asked.
 
+Unless I ask otherwise, a review reports at most the two most serious findings.
+
 Open every review with three paragraphs, before the first finding, each 30 words or fewer: the general shape of the defect, named without any identifier from this change (see Name the problem before the case in `technical-language.md`); the problem the change solves; and how dangerous the fix is — blast radius, what breaks if it is wrong. Write all three from the diff even where the body already says it; they show the author that the review read the right change. They sit outside the 100-word budget.
 
 Check every review comment before it goes into the draft: turn the comment into an open question to the author ("there is a problem X" becomes "how do you plan to overcome X?"), have two subagents on different models answer it independently from the code, and keep the comment only if the question still stands after both answers. Drop it when either answer shows the code already overcomes X.
 
 When I give a direction - a design change, a fix to apply, a different approach - open the reply with how good it is, before acting on it. If it breaks something (a guarantee, a caller, an earlier decision, a test), say so in the first sentence, then what to do instead or how to keep both.
 
+Before drafting a review, read the comments already on the pull request: review threads, review bodies and issue-level comments. Drop any finding that a bot or another reviewer already raised; do not restate it. Keep it only when the code changed since that comment and the problem is still there.
+
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
+
+## Commands I run in another console
+
+When you give me an AWS command to run in my own terminal, end it with `2>&1 | tee ~/tmp/elevated.txt`, and start it with `mkdir -p ~/tmp`. Right after giving the command, watch the file in the background (with `Monitor`, until its modification time changes and the command has finished writing), then read it and continue without waiting for me to say it ran; I do not paste the output into the chat.
 
 ## Asking questions
 

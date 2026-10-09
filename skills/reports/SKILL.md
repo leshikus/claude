@@ -22,6 +22,8 @@ URL in `~/repos/reports/focus.txt`:
 cat ~/repos/reports/focus.txt    # e.g. https://github.com/ClickHouse/clickhouse-private/issues/66856
 ```
 
+An optional second line pins the focus pull request; when present, Focus lists that PR and no other.
+
 Read it at the start of every report. If the file is missing or empty, omit the Focus
 section entirely rather than guessing which task is meant — a wrong focus is worse than
 none, because the section is the one Max reads first.
@@ -29,14 +31,13 @@ none, because the section is the one Max reads first.
 Pull its state and everything that referenced it:
 
 ```bash
-gh issue view <n> --repo <owner/repo> --json title,state,url,comments
+gh issue view <n> --repo <owner/repo> --json title,state,url
 gh api repos/<owner>/<repo>/issues/<n>/timeline --paginate \
   -q '.[] | select(.event=="cross-referenced") | .source.issue | "\(.html_url) \(.title)"'
 ```
 
-The timeline's cross-references are what make this a progress report rather than a link:
-they are the pull requests that claim to move the task. Apply the same window cutoff to
-them as to everything else.
+The timeline's cross-references are the pull requests that claim to move the task, and
+they are what Focus lists. Apply the same window cutoff to them as to everything else.
 
 ## Collecting the data
 
@@ -142,58 +143,58 @@ The filter is strict. A still-open PR with no activity inside the window is excl
 <status note>
 
 ## Focus: <issue title>
-
 <issue URL>
 
-<one line: where the task stands now>
-<one line per PR or comment that moved it inside the window, URL then what it changed>
-Blocked on: <what is stopping it, or omit the line>
-Next: <the next concrete step>
-
-## Updated Issues
-
 <URL>
 <title>
-Open | Closed
-
-## In Progress
-
-<URL>
-<title>
-<status note>
 
 ## Merged
 
 <URL>
 <title>
 
-## Reviews
+## Updated Issues
 
 <URL>
 <title>
+
+## Activity
+
+<URL>
+<URL>
 ```
 
-Each PR appears in exactly one section, and the sections claim them in the order they
-are printed: **Waiting for @Max review, then Focus, then In Progress.** A PR that would
-have gone to In Progress and is cross-referenced by the focus issue belongs to Focus
-instead — that is the point of the section, and listing it twice makes the report
+Each item appears in exactly one section, and the sections claim them in the order they
+are printed: **Waiting for @Max review, then Focus, then Merged, then Updated Issues, then Activity.** A PR
+that would have gone to Activity and is the focus PR belongs to Focus instead — that is the point of the section, and listing it twice makes the report
 longer without saying more. One awaiting Max's review stays in his review list, because
-that is what he acts on rather than reads.
+that is what he acts on rather than reads. The focus topic match below is the one item
+listed twice.
 
-Waiting for @Max review holds open PRs with no human approval where `maxknv` is a requested reviewer, drafts included. Every other PR still awaiting review — no reviewer requested, or somebody else requested — goes to In Progress, unless Focus has already claimed it. Status notes on unmerged PRs start with `Draft: <what the body says was done>` for drafts, `Testing` when a human has approved, and no label otherwise — never name the approver. Merged entries carry no note.
+A section with no entries is left out, header included — in every report, not only the daily one.
 
-Focus reports progress on the issue named in `focus.txt`, and it is the section Max
-reads for status, so it says where the task stands rather than listing links. "Where it
-stands" is a sentence someone can act on — what is done, what is not — not a restatement
-of the title. Movement inside the window comes from the issue's own comments and from
-cross-referenced pull requests, which Focus lists in full rather than leaving to In
-Progress; when nothing moved, say so in one line and keep
-`Blocked on:` and `Next:`, which are the part that does not depend on the window.
+In Waiting for @Max review, Focus, Merged and Updated Issues, every entry is the URL with its title on the next line, nothing between them, and one blank line between entries — no description of the diff. Waiting for @Max review adds a status note.
+
+Updated Issues holds issues from the `ISSUES` section updated inside the window, whatever their state.
+
+Activity is one URL per line, nothing else: no title, no state, no blank line between them. It absorbs what were the In Progress and Reviews sections — leshikus' still-open PRs, his PRs closed unmerged inside the window, and other people's PRs he reviewed or commented on. The list is the whole content; anything worth saying about an item belongs in one of the sections above it.
+
+Waiting for @Max review holds open, non-draft PRs with no human approval where `maxknv` is a requested reviewer. A draft is not ready for review, whoever is requested. Drafts and every other PR still awaiting review — no reviewer requested, or somebody else requested — go to Activity, unless Focus has already claimed them. Its status note is `Testing` when a human has approved, and empty otherwise — never name the approver.
+
+Focus has three parts and no more: the section header carrying the issue title, the issue
+URL on the line directly under it, then a blank line and one pull request as URL and
+title. One PR, never a list — the closest topic match, whether or not the issue's
+timeline cross-references it. Nothing else: no progress line, no `Blocked on:`, no
+`Next:`, and do not repeat the issue title the header already carries.
+
+Where nothing matches, the section carries just the issue URL. Where that pull request is
+also awaiting Max's review, list it in both sections — he needs the review as much as the
+progress.
 
 Omit the whole section when `focus.txt` is absent. Never substitute a task of your own
 choosing.
 
-Reviews holds other people's PRs that leshikus reviewed or commented on inside the window, from the `REVIEWED` section. The same two filters the weekly report needs apply here, and the timestamp check matters more at a one-day window: drop bot- and robot-fronted authors, and drop PRs where leshikus' own review or comment landed before the cutoff. Use the `gh api` calls listed under the weekly report to check the real timestamps.
+The reviewed PRs that reach Activity come from the `REVIEWED` section. The same two filters the weekly report needs apply, and the timestamp check matters more at a one-day window: drop bot- and robot-fronted authors, and drop PRs where leshikus' own review or comment landed before the cutoff. Use the `gh api` calls listed under the weekly report to check the real timestamps.
 
 ## Weekly report (`weekly.txt`)
 
