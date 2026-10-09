@@ -21,7 +21,7 @@ When asked which pull requests are waiting on my review and nobody else's, run t
 
 ## Processing review comments
 
-Use the `review-comments` skill (via the Skill tool) for every review comment on my pull requests: triage, patches, the decision words and the reply forms live there.
+Use the `answer-review-comments` skill (via the Skill tool) for every review comment on my pull requests: triage, patches, the decision words and the reply forms live there.
 
 ## ClickHouse projects
 

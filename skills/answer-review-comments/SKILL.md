@@ -1,9 +1,9 @@
 ---
-name: review-comments
+name: answer-review-comments
 description: Process review comments on my pull requests, from humans and bots - triage each (won't fix, separate PR, implement), prepare one patch per comment, then walk them with me one at a time and act only on the exact decision words. Use when asked to process, triage, answer, resolve or reply to review comments, or to "do the comments" on a PR.
 ---
 
-# review-comments
+# answer-review-comments
 
 Process review comments in two phases; do not collapse them.
 
