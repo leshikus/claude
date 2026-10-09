@@ -18,6 +18,8 @@ Process review comments in two phases; do not collapse them.
 
 **Phase 2 — human review and action.** Walk the comments with me one at a time, in dialogue. For each, show the comment and its proposed solution (with the prepared patch), then wait for my decision before acting. Only once I agree on that comment do you apply its patch, commit, post the sanctioned reply, or open the follow-up. Do not batch-apply, and do not move to the next comment until the current one is resolved with me.
 
+Decisions in Phase 2 use exact words, and nothing else is a decision. `approve <n>` applies the patch of item `<n>`, commits, pushes and posts the reply shown for it; `apply <n>` does the same without the reply; `post <n>` posts only the reply; `again <n>` shows item `<n>` once more (comment text, plain explanation, resolution options and the exact action `approve <n>` would take) and writes nothing. Every other word — "continue", "next", "ok", "yes", "go on" — is discussion: move to the next comment or answer the question, and write nothing. End each item shown with the exact action `approve <n>` would take.
+
 The triage and reply mechanics below apply within these phases — triage in Phase 1, apply/reply in Phase 2.
 
 When responding to a review comment (from a human or a bot), first triage it into one of three options and prefer the earliest that applies, rather than reflexively implementing:
