@@ -28,7 +28,7 @@ Use the fewest words that carry the fact. Delete any clause whose removal loses 
 
 Write in ASD-STE100 Simplified Technical English where it fits. It applies to RFCs, design docs, issues, pull request descriptions, commit messages, review comments and chat replies alike:
 
-- One word, one meaning: use the ordinary word, not jargon or a verbed noun — "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands" — and do not use one word for two things.
+- One word, one meaning: use the ordinary word, not jargon, not a metaphor, or a verbed noun — "does nothing", not "no-ops"; "runs", not "fires"; "reaches", not "lands" — and do not use one word for two things.
 - Sentences of at most 20 words for instructions and 25 for descriptions; one topic per sentence and at most six sentences per paragraph.
 - Active voice and simple tenses: "the job deletes the file", not "the file is being deleted".
 - One instruction per sentence, in the imperative: "Add the label. Then run the workflow."
