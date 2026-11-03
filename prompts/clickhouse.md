@@ -31,9 +31,13 @@ Follow `.github/PULL_REQUEST_TEMPLATE.md` exactly: the body is a short descripti
 
 Keep PR descriptions concise. The description prose (everything before the Changelog category, i.e. excluding the template's Changelog category/entry boilerplate) must be no more than 200 words, and for small PRs no more than 100 words. Trim motivation and background to the essentials rather than writing multi-paragraph explanations.
 
+A PR body is short and reads like a list of architectural findings: one sentence on the problem, then a numbered list, one item per technical matter — a bold name, then what the change does there and what breaks without it. No narrative, no walk-through of the diff.
+
 When creating a PR, open it as a **Draft** — this prevents accidental merges.
 
 When marking a PR ready for review (transitioning it out of Draft), first actualize its title and body via the `clickhouse-pr-description` skill. Both are often written against an early draft state; by the time the PR is ready the change, motivation, and CI story have usually moved on, so regenerate the subject and description before it goes in front of reviewers.
+
+After pushing new commits to an open PR, check whether its title and body still describe the diff. If they do not, regenerate them via the `clickhouse-pr-description` skill and apply them with `gh pr edit` without asking, then mention the update in one line. Create new PRs (as Draft) the same way, without asking for approval of the title or body first; post the URL afterwards.
 
 When a PR only touches files under `.claude/` (settings, tools, skills, instructions, etc.), prefix the title with `claude: ` and use the `Documentation (changelog entry is not required)` changelog category. Example: `claude: add fetch_ci_report.js to allowed commands`.
 
@@ -44,6 +48,12 @@ When adding new prompt conventions, rules, or guidelines that apply to all Click
 When adding or updating ClickHouse-related permissions in `~/.claude/settings.json` or rules in `~/.claude/CLAUDE.md`, accumulate the changes locally. Do not open an individual PR for each change — they will be combined into a single PR once per week. Once the combined PR is merged, remove the corresponding entries from the local `~/.claude/` files.
 
 ### Fork vs upstream
+
+Before starting a fork PR, sync the fork first (a stale fork `master` gives a stale base and failed fetches):
+
+```
+gh repo sync leshikus/clickhouse
+```
 
 If the current repository is a fork (i.e. `git remote get-url origin` does not contain `ClickHouse/ClickHouse`), always target the upstream repository. Pass `--repo ClickHouse/ClickHouse` to `gh pr create` and set `--head <fork-owner>:<branch>` so the PR is opened against the canonical repo, not the fork.
 

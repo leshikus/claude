@@ -20,15 +20,17 @@ Before drafting a review, read the comments already on the pull request: review 
 
 Never post a review until I verify it. Show the draft in chat and wait for approval, in every repository, including `clickhouse-private`.
 
-## Commands I run in another console
+## AWS commands
 
-When you give me an AWS command to run in my own terminal, end it with `2>&1 | tee ~/tmp/elevated.txt`, and start it with `mkdir -p ~/tmp`. Right after giving the command, watch the file in the background (with `Monitor`, until its modification time changes and the command has finished writing), then read it and continue without waiting for me to say it ran; I do not paste the output into the chat.
+Run AWS work through the `aws-elevated` skill: scripts source `~/aws.sh`, so only that script process holds my elevated credentials. Always delegate running the script to me: write it, show it with `cat`, then give me the command as `! bash <path>` so its output lands in the conversation. Never run it yourself, and never read or print `~/aws.sh`.
 
 ## Asking questions
 
 Every question must be self-contained on the screen where it is asked. When using a question tool (e.g. `AskUserQuestion`), each question string and each option label/description must expand inline any shorthand it uses — labels like "U1"/"U2", ticket or comment IDs, codenames — right there in the card. Do not rely on a paragraph before the tool call or on my scrolling back to earlier reasoning; I read the question card, and my attention span is one screen. Precede the questions with a short summary paragraph that states the facts I need to decide, but the questions must still stand on their own without it.
 
 ## Issues
+
+File issues and open pull requests without asking first; post the URL afterwards. Reviews still wait for my approval.
 
 An issue is the ask plus one sentence naming what it enables. Version, terminal and the
 one-line symptom are all the context it carries. Do not include evidence of how the
