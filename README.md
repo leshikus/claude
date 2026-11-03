@@ -23,23 +23,20 @@ nobody invokes a skill before writing a code comment.
 
 ## Install
 
-`./install.sh` copies `prompts/` and `skills/` into `~/.claude/`, and `CLAUDE.md.in`
-to `~/.claude/CLAUDE.md`, which is what imports the prompts:
+Clone the repository as `~/.claude`. `.gitignore` ignores everything except `CLAUDE.md`, `prompts/` and `skills/`, so credentials, transcripts and settings stay untracked:
+
+```
+git init ~/.claude && cd ~/.claude
+git remote add origin https://github.com/leshikus/claude.git
+git fetch origin && git reset origin/main && git checkout -- .
+```
+
+`CLAUDE.md` imports the prompts:
 
 ```
 @prompts/generic.md
 @prompts/technical-language.md
 @prompts/clickhouse.md
+@prompts/macos-runner-logging.md
 @prompts/personal.md
 ```
-
-The wrapper is committed too, because without it nothing loads any of this. It is named
-`.in` so that working in this repository does not pick it up as project instructions,
-where those relative paths do not resolve. An existing wrapper is kept as
-`~/.claude/CLAUDE.md.bak`.
-
-Copies, not symlinks, and under `~/.claude/` rather than imported from here directly.
-Both constraints come from running Claude Code in a container: `~/.claude` is mounted
-in, `~/repos` is not, so an import pointing at this checkout resolves on the host and
-fails inside. A symlink fails the same way, and a container writing through one would
-clobber the file in this repository.

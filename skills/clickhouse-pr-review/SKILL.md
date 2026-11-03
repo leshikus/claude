@@ -150,6 +150,18 @@ change, say so explicitly and skip detail-level bullets — don't pad.>
 
 Then append the PR number to `seen.txt` on its own line.
 
+## Step 3b — Challenge-test PR for a blocker or major finding
+
+When a finding is a code blocker or a major issue, prove it with a follow-up PR holding a challenge test: a test that fails on the reviewed PR's head and challenges the author to make it pass. Do this before the draft is shown, and put the PR URL in the draft review.
+
+1. Branch from the reviewed PR's head (`git fetch upstream pull/<N>/head`), so the test runs against the defective code.
+2. Write the test per the `add-test` skill: a real end-to-end test that fails on this head. Confirm it fails.
+3. Keep the PR minimal. In `ci/workflows/pull_request.py` drop every job and setting except one test job that runs the new test. Do not touch other files.
+4. Regenerate the workflow with `PYTHONPATH=.:ci python3 -m praktika yaml` in a full checkout (a sparse one fails path validation), so `.github/workflows/pull_request.yml` matches the trimmed `pull_request.py`. Keep `REGULAR_BUILD_NAMES`, which `master.py` imports, and the artifact list, which the build job needs.
+5. Open it as a Draft PR through the `clickhouse-pr-description` skill, targeting `master`: the repository forbids stacked PRs and CI runs only for `master`. The PR carries the reviewed PR's commits plus ours. Add the `can be tested` label. Post the full URL.
+
+Minor findings and nits get no follow-up PR.
+
 ## Step 4 — Wrap up
 
 Append a one-liner at the end of `findings.md`:
@@ -172,7 +184,7 @@ When the user asks to post a review for one of the entries:
 ## Guardrails
 
 - Never auto-post a review. Posting is always user-initiated.
-- Never push changes to the PR branches.
+- Never push changes to the reviewed PR's branch. The Step 3b challenge-test PR uses its own branch.
 - Never approve or request changes without an explicit user instruction.
 - Stay strictly read-only against GitHub except for the explicit post step.
 - If `gh` is not authenticated or rate-limited, log the error in `findings.md` under a `Run: <timestamp> — ERROR: ...` line and stop. Do not retry in a tight loop.

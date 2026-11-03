@@ -153,11 +153,6 @@ The filter is strict. A still-open PR with no activity inside the window is excl
 <URL>
 <title>
 
-## Updated Issues
-
-<URL>
-<title>
-
 ## Activity
 
 <URL>
@@ -165,7 +160,7 @@ The filter is strict. A still-open PR with no activity inside the window is excl
 ```
 
 Each item appears in exactly one section, and the sections claim them in the order they
-are printed: **Waiting for @Max review, then Focus, then Merged, then Updated Issues, then Activity.** A PR
+are printed: **Waiting for @Max review, then Focus, then Merged, then Activity.** A PR
 that would have gone to Activity and is the focus PR belongs to Focus instead — that is the point of the section, and listing it twice makes the report
 longer without saying more. One awaiting Max's review stays in his review list, because
 that is what he acts on rather than reads. The focus topic match below is the one item
@@ -173,11 +168,11 @@ listed twice.
 
 A section with no entries is left out, header included — in every report, not only the daily one.
 
-In Waiting for @Max review, Focus, Merged and Updated Issues, every entry is the URL with its title on the next line, nothing between them, and one blank line between entries — no description of the diff. Waiting for @Max review adds a status note.
+In Waiting for @Max review, Focus and Merged, every entry is the URL with its title on the next line, nothing between them, and one blank line between entries — no description of the diff. Waiting for @Max review adds a status note.
 
-Updated Issues holds issues from the `ISSUES` section updated inside the window, whatever their state.
+Activity is one URL per line, nothing else: no title, no state, no blank line between them. It absorbs what were the In Progress and Reviews sections — leshikus' still-open PRs, his PRs closed unmerged inside the window, other people's PRs he reviewed or commented on that Merged did not claim, and issues from the `ISSUES` section updated inside the window, whatever their state. The list is the whole content; anything worth saying about an item belongs in one of the sections above it.
 
-Activity is one URL per line, nothing else: no title, no state, no blank line between them. It absorbs what were the In Progress and Reviews sections — leshikus' still-open PRs, his PRs closed unmerged inside the window, and other people's PRs he reviewed or commented on. The list is the whole content; anything worth saying about an item belongs in one of the sections above it.
+Merged holds PRs merged inside the window: leshikus' own, and those he reviewed or commented on inside the window whose author is a bot or an external contributor — `user.type` `Bot`, or `author_association` other than `MEMBER`/`OWNER` (`gh api repos/<owner>/<repo>/pulls/<n> --jq '.user.type,.author_association'`). `groeneai` and `oranjeai` are bots, whatever `user.type` says. Such a PR lands his work, as https://github.com/ClickHouse/clickhouse-private/pull/71356 by `oranjeai` did. A colleague's merged PR goes to Activity. `robot-*` backports stay dropped.
 
 Waiting for @Max review holds open, non-draft PRs with no human approval where `maxknv` is a requested reviewer. A draft is not ready for review, whoever is requested. Drafts and every other PR still awaiting review — no reviewer requested, or somebody else requested — go to Activity, unless Focus has already claimed them. Its status note is `Testing` when a human has approved, and empty otherwise — never name the approver.
 
@@ -214,14 +209,16 @@ Window: Monday 13:00 Munich of last week to Monday 13:00 Munich of this week.
 ## Reviews
 
 <URL>
-<title>
+<URL>
 ```
 
 In Progress holds leshikus' still-open PRs updated inside the window, drafts included — omit the section entirely when Merged has more than two PRs.
 
+Reviews is one URL per line, nothing else: no title, no blank line between them.
+
 Reviews holds other people's PRs that leshikus reviewed or commented on inside the window. Two filters the search cannot apply:
 
-- Drop bot authors. `-author:leshikus` matches the GitHub author field only, so robot-fronted backports of leshikus' own merged PRs (`robot-clickhouse-ci-1`, `robot-ch-test-poll`, any `robot-*`, titles like `Backport #<n> to release/...`) come through as somebody else's work.
+- Drop bot authors, `groeneai` and `oranjeai` included. `-author:leshikus` matches the GitHub author field only, so robot-fronted backports of leshikus' own merged PRs (`robot-clickhouse-ci-1`, `robot-ch-test-poll`, any `robot-*`, titles like `Backport #<n> to release/...`) come through as somebody else's work.
 - Drop PRs where leshikus' own review or comment landed outside the window. `updated:` matches anybody's update at day granularity, which both admits PRs somebody else touched and misses the hours between Munich 13:00 and UTC midnight. Check the real timestamps:
 
 ```bash
@@ -229,6 +226,10 @@ gh api "/repos/<owner>/<repo>/issues/<num>/comments" --jq '[.[] | select(.user.l
 gh api "/repos/<owner>/<repo>/pulls/<num>/reviews"   --jq '[.[] | select(.user.login=="leshikus") | .submitted_at]'
 gh api "/repos/<owner>/<repo>/pulls/<num>/comments"  --jq '[.[] | select(.user.login=="leshikus") | .created_at]'
 ```
+
+## Slack copy
+
+After writing a report, run `~/.claude/skills/reports/scripts/report_html.py <report.txt>`. It writes `<report>.html` beside the text file, in the Slack layout: each header as `<Header>:`, a titled entry as `#<num>: <title>`, and a URL-only section as `<Header>: ` followed by its `#<num>` links on the same line. A header of the form `<Name>: <title>` whose first entry is a bare URL, such as Focus, takes that link inline: `Focus: #<num>: <title>`. Each `#<num>` is a link to its URL. It also puts the HTML on the macOS clipboard, ready to paste into Slack.
 
 ## PR titles
 

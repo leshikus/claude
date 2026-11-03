@@ -1,0 +1,11 @@
+/*
+!/.gitignore
+!/README.md
+!/CLAUDE.md
+!/prompts/
+!/skills/
+**/.DS_Store
+**/*.log
+**/*.lock
+**/cache/
+**/node_modules/
