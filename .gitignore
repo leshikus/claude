@@ -9,3 +9,4 @@
 **/*.lock
 **/cache/
 **/node_modules/
+/skills/pr-architecture-review
