@@ -32,6 +32,8 @@ When you must write a script similar to one in the catalog, do not copy it. Writ
 
 A script that reads a secret (a token, a key, a password) must not show it. Read the secret into a variable, never into a file or a command line. Do not turn on `set -x` after the read: the trace prints the value. Give the secret to `git` and `docker` through the environment, not through arguments, because arguments are visible in the process list. Do not print it, copy it to the clipboard or write it to a log, unless I ask. After the first run, look in its output for the secret.
 
+A script that goes into a skill or the catalog is published, so it holds no internal value: no SSM parameter path, no bucket or function name, no account or instance ID. It takes such a value as a parameter or from the environment, with no default value. The value then stays in my shell history and in the chat, which is fine for a name, but it does not make a secret safe: give a secret to a script through the environment or read it inside the script, never as an argument.
+
 ## Asking questions
 
 Every question must be self-contained on the screen where it is asked. When using a question tool (e.g. `AskUserQuestion`), each question string and each option label/description must expand inline any shorthand it uses — labels like "U1"/"U2", ticket or comment IDs, codenames — right there in the card. Do not rely on a paragraph before the tool call or on my scrolling back to earlier reasoning; I read the question card, and my attention span is one screen. Precede the questions with a short summary paragraph that states the facts I need to decide, but the questions must still stand on their own without it.
