@@ -24,6 +24,14 @@ Never post a review until I verify it. Show the draft in chat and wait for appro
 
 Run AWS work through the `aws-elevated` skill: scripts source `~/aws.sh`, so only that script process holds my elevated credentials. Always delegate running the script to me: write it, show it with `cat`, then give me the command as `! bash <path>` so its output lands in the conversation. Never run it yourself, and never read or print `~/aws.sh`.
 
+## Scripts
+
+Keep a catalog of the scripts you create in `~/.claude/prompts/scripts-catalog.md`. Add one line per script when you write it: the path, what it does, whether it only reads or changes something, and the skill that covers it, if there is one. Before you write a script, look in the catalog for a similar one. The repository of the catalog is public: write no secret value, no account or instance ID and no SSM parameter path in it.
+
+When you must write a script similar to one in the catalog, do not copy it. Write it as a skill instead: a parameterised script under `~/.claude/skills/<name>/scripts/` with a `SKILL.md`. Put the skill name in the catalog line of each script that it replaces. Create a skill only for a script that you must write a second time, not before. Write every skill in English: the `SKILL.md`, the scripts and their comments.
+
+A script that reads a secret (a token, a key, a password) must not show it. Read the secret into a variable, never into a file or a command line. Do not turn on `set -x` after the read: the trace prints the value. Give the secret to `git` and `docker` through the environment, not through arguments, because arguments are visible in the process list. Do not print it, copy it to the clipboard or write it to a log, unless I ask. After the first run, look in its output for the secret.
+
 ## Asking questions
 
 Every question must be self-contained on the screen where it is asked. When using a question tool (e.g. `AskUserQuestion`), each question string and each option label/description must expand inline any shorthand it uses — labels like "U1"/"U2", ticket or comment IDs, codenames — right there in the card. Do not rely on a paragraph before the tool call or on my scrolling back to earlier reasoning; I read the question card, and my attention span is one screen. Precede the questions with a short summary paragraph that states the facts I need to decide, but the questions must still stand on their own without it.
