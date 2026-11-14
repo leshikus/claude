@@ -116,3 +116,4 @@ Skill: none for every script below. A skill is created only when a script must b
 
 - `~/tmp/prbj.py` — copy of the private `CreateReleaseBranch` job.
 - `~/tmp/ri.py`, `~/tmp/runner-init.py`, `~/tmp/macos-v80.py` — local copies of versions of `runner-init.py`.
+- `gradient-key-impl/scripts/small_formulas_data.py` (public repo): fits and checks exact formulas for few columns, writes exact values for few rows and the TeX tables; writes files only; no skill.
