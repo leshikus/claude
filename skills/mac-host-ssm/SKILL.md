@@ -19,8 +19,8 @@ Write the commands of a check as a snippet file, not as a new AWS script. The sc
 
 ## Example
 
+The user's login shell is zsh, which does not split an unquoted `$h`. Run the loop in `bash -c`:
+
 ```bash
-for h in "<region-1> <instance-1>" "<region-2> <instance-2>"; do
-    bash ~/.claude/skills/mac-host-ssm/scripts/ssm_run.sh $h tmp/probe.sh
-done
+bash -c 'for h in "<region-1> <instance-1>" "<region-2> <instance-2>"; do bash ~/.claude/skills/mac-host-ssm/scripts/ssm_run.sh $h tmp/probe.sh; done'
 ```
