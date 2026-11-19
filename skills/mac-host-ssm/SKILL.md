@@ -13,6 +13,8 @@ Write the commands of a check as a snippet file, not as a new AWS script. The sc
 
 `scripts/ssm_diagnose.sh REGION:INSTANCE [REGION:INSTANCE ...]` only reads. When `ssm_run.sh` reports `Pending` although the ping is `Online`, it prints the EC2 network and profile data, the SSM registration, the status of recent commands, whether the instance role may use the SSM channels (`ec2messages`, `ssmmessages`), and the VPC endpoints. Run it on a failing host and on a working one, and compare.
 
+`scripts/ssm_history.sh START END REGION:INSTANCE [REGION:INSTANCE ...]` only reads. It prints the State Manager associations of the hosts with their status and error, and the count of CloudTrail write events by source and name in the time window for each region and for `us-east-1` (IAM changes). Use it to find what changed when a host stopped taking commands.
+
 ## Rules
 
 1. Follow the `aws-elevated` rules: show the script and the snippet with `cat`, say whether the snippet only reads or changes something, and give the command as `! bash <path>`. Never run it yourself.
