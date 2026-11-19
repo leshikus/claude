@@ -11,6 +11,8 @@ Write the commands of a check as a snippet file, not as a new AWS script. The sc
 
 `scripts/host_state.sh REGION:INSTANCE [REGION:INSTANCE ...]` only reads. It prints the EC2 type, state, image and launch time, and the SSM ping status of each host. Run it first when `ssm_run.sh` reports `Pending`: the agent of a host that is rebooting or stopped does not pick up the command.
 
+`scripts/ssm_diagnose.sh REGION:INSTANCE [REGION:INSTANCE ...]` only reads. When `ssm_run.sh` reports `Pending` although the ping is `Online`, it prints the EC2 network and profile data, the SSM registration, the status of recent commands, whether the instance role may use the SSM channels (`ec2messages`, `ssmmessages`), and the VPC endpoints. Run it on a failing host and on a working one, and compare.
+
 ## Rules
 
 1. Follow the `aws-elevated` rules: show the script and the snippet with `cat`, say whether the snippet only reads or changes something, and give the command as `! bash <path>`. Never run it yourself.
