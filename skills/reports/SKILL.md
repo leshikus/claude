@@ -152,17 +152,12 @@ The filter is strict. A still-open PR with no activity inside the window is excl
 
 <URL>
 <title>
-
-## Activity
-
-<URL>
-<URL>
 ```
 
+The daily report has no Activity section. Leave out every item that would have gone there.
+
 Each item appears in exactly one section, and the sections claim them in the order they
-are printed: **Waiting for @Max review, then Focus, then Merged, then Activity.** A PR
-that would have gone to Activity and is the focus PR belongs to Focus instead — that is the point of the section, and listing it twice makes the report
-longer without saying more. One awaiting Max's review stays in his review list, because
+are printed: **Waiting for @Max review, then Focus, then Merged.** One awaiting Max's review stays in his review list, because
 that is what he acts on rather than reads. The focus topic match below is the one item
 listed twice.
 
@@ -170,11 +165,9 @@ A section with no entries is left out, header included — in every report, not 
 
 In Waiting for @Max review, Focus and Merged, every entry is the URL with its title on the next line, nothing between them, and one blank line between entries — no description of the diff. Waiting for @Max review adds a status note. The exception is a bot or external PR in Merged: URL only.
 
-Activity is one URL per line, nothing else: no title, no state, no blank line between them. It absorbs what were the In Progress and Reviews sections — leshikus' still-open PRs, his PRs closed unmerged inside the window, other people's PRs he reviewed or commented on that Merged did not claim, and issues from the `ISSUES` section updated inside the window, whatever their state. The list is the whole content; anything worth saying about an item belongs in one of the sections above it.
+Merged holds PRs merged inside the window: leshikus' own, and those he reviewed or commented on inside the window whose author is a bot or an external contributor — `user.type` `Bot`, or `author_association` other than `MEMBER`/`OWNER` (`gh api repos/<owner>/<repo>/pulls/<n> --jq '.user.type,.author_association'`). `groeneai` and `oranjeai` are bots, whatever `user.type` says. Such a PR lands his work, as https://github.com/ClickHouse/clickhouse-private/pull/71356 by `oranjeai` did. In Merged, such a PR is a bare URL, one per line after leshikus' own entries, with no title and no blank line between them. A colleague's merged PR is left out. `robot-*` backports stay dropped.
 
-Merged holds PRs merged inside the window: leshikus' own, and those he reviewed or commented on inside the window whose author is a bot or an external contributor — `user.type` `Bot`, or `author_association` other than `MEMBER`/`OWNER` (`gh api repos/<owner>/<repo>/pulls/<n> --jq '.user.type,.author_association'`). `groeneai` and `oranjeai` are bots, whatever `user.type` says. Such a PR lands his work, as https://github.com/ClickHouse/clickhouse-private/pull/71356 by `oranjeai` did. In Merged, such a PR is a bare URL, one per line after leshikus' own entries, with no title and no blank line between them. A colleague's merged PR goes to Activity. `robot-*` backports stay dropped.
-
-Waiting for @Max review holds open, non-draft PRs with no human approval where `maxknv` is a requested reviewer or an assignee. It ignores the window: a PR waits there however long ago it was last touched, so `updated` before the cutoff does not drop it. The collector's window filter hides such PRs, so list them with `gh search prs --state open --owner ClickHouse --draft=false --author leshikus --review-requested maxknv` and again with `--assignee maxknv`. Check assignees with `gh pr view <n> --json assignees`, because the collector does not return them. A draft is not ready for review, whoever is requested. Drafts and every other PR still awaiting review — no reviewer requested, or somebody else requested or assigned — go to Activity, unless Focus has already claimed them. Its status note is `Testing` when a human has approved, and empty otherwise — never name the approver.
+Waiting for @Max review holds open, non-draft PRs with no human approval where `maxknv` is a requested reviewer or an assignee. It ignores the window: a PR waits there however long ago it was last touched, so `updated` before the cutoff does not drop it. The collector's window filter hides such PRs, so list them with `gh search prs --state open --owner ClickHouse --draft=false --author leshikus --review-requested maxknv` and again with `--assignee maxknv`. Check assignees with `gh pr view <n> --json assignees`, because the collector does not return them. A draft is not ready for review, whoever is requested. Drafts and every other PR still awaiting review — no reviewer requested, or somebody else requested or assigned — are left out of the daily report. Its status note is `Testing` when a human has approved, and empty otherwise — never name the approver.
 
 Focus has three parts and no more: the section header carrying the issue title, the issue
 URL on the line directly under it, then a blank line and one pull request as URL and
@@ -189,7 +182,7 @@ progress.
 Omit the whole section when `focus.txt` is absent. Never substitute a task of your own
 choosing.
 
-The reviewed PRs that reach Activity come from the `REVIEWED` section. The same two filters the weekly report needs apply, and the timestamp check matters more at a one-day window: drop bot- and robot-fronted authors, and drop PRs where leshikus' own review or comment landed before the cutoff. Use the `gh api` calls listed under the weekly report to check the real timestamps.
+The daily report does not use the `REVIEWED` section, except to find bot or external PRs for Merged. Check the real timestamps with the `gh api` calls listed under the weekly report.
 
 ## Weekly report (`weekly.txt`)
 
@@ -229,7 +222,9 @@ gh api "/repos/<owner>/<repo>/pulls/<num>/comments"  --jq '[.[] | select(.user.l
 
 ## Slack copy
 
-After writing a report, run `~/.claude/skills/reports/scripts/report_html.py <report.txt>`. It writes `<report>.html` beside the text file, in the Slack layout: each header as `<Header>:`, a titled entry as `#<num>: <title>`, and a URL-only section as `<Header>: ` followed by its `#<num>` links on the same line. A header of the form `<Name>: <title>` whose first entry is a bare URL, such as Focus, takes that link inline: `Focus: #<num>: <title>`. Each `#<num>` is a link to its URL. It also puts the HTML on the macOS clipboard, ready to paste into Slack.
+After writing a report, run `~/.claude/skills/reports/scripts/report_html.py <report.txt>`. It writes `<report>.md` beside the text file and copies the same text to the clipboard as plain text. The layout is the Slack layout: each header as `<Header>:`, a titled entry as `[#<num>](<url>): <title>`, and a URL-only section as `<Header>: ` followed by its `[#<num>](<url>)` links on the same line. A header of the form `<Name>: <title>` whose first entry is a bare URL, such as Focus, takes that link inline: `Focus: [#<num>](<url>): <title>`.
+
+Slack turns the markdown links into hyperlinks only when *Format messages with markup* is on (Settings, Advanced). A rich-text (HTML) clipboard did not keep the links in Slack, so the script writes no HTML.
 
 ## PR titles
 
