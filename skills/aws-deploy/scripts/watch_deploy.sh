@@ -2,6 +2,7 @@
 # Usage: watch_deploy.sh <pr> [--merge]
 # Prints one line per event; exits 0 on a finished deploy that contains the PR, 1 on a failure.
 set -u
+command -v jq >/dev/null || { echo "jq is required" >&2; exit 2; }
 R=ClickHouse/clickhouse-private; P=$1; MERGE=${2:-}
 while true; do
     s=$(gh pr view "$P" --repo $R --json state,isDraft,statusCheckRollup 2>/dev/null) || { sleep 60; continue; }
