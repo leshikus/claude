@@ -8,7 +8,7 @@ Three reports live under `~/repos/reports/`: `morning.txt` (everything open wher
 
 When asked for any of them, invoke the `reports` skill (via the Skill tool) — it owns the collector script, the windows, the section formats and the signal-to-action rules. Never hand-assemble the `gh` queries.
 
-The monitor asks on a schedule for two picks out of the same actionable set as `morning.txt` — the oldest item waiting on me, and the highest-priority one — and wants only the labelled URLs back. Build the set the same way: run `~/.claude/skills/reports/scripts/gh_report.sh morning` and apply the skill's signal-to-action rules. The highest pick is the item that ordering puts first, by the same "what to finish first" judgment the morning report uses. Repositories outside the ClickHouse organisation are out of scope.
+The monitor asks on a schedule for two picks out of the same actionable set as `morning.txt` — the oldest item waiting on me, and the highest-priority one — and wants only the labelled URLs back. Build the set the same way: run `~/.claude/skills/reports/scripts/gh_report.sh morning` and apply the skill's signal-to-action rules. The highest pick is the item that ordering puts first, by the same "what to finish first" judgment the morning report uses. All repositories in the ClickHouse organisation are in scope, including `praktika` and `web-site`. Repositories outside the ClickHouse organisation are out of scope.
 
 When asked which pull requests are waiting on my review and nobody else's, run the same collector and keep the `REVIEW_REQUESTED` rows whose `human_reviews` is empty:
 

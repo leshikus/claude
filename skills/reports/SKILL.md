@@ -125,7 +125,7 @@ These are drafts for leshikus to post, edit or discard. Never post them.
 
 Before writing an action that asserts a relationship between two items — supersedes, duplicates, covers the same ground — compare the changed files (`gh pr view <n> --json files`). Overlapping titles are not evidence.
 
-Repositories outside the ClickHouse organisation are out of scope; the collector filters them with `org:`.
+Every repository in the ClickHouse organisation is in scope, not only `ClickHouse/ClickHouse`: `ClickHouse/praktika`, `ClickHouse/web-site`, `clickhouse-private` and the rest. Never filter by repository name. Repositories outside the organisation are out of scope; the collector filters them with `org:`.
 
 ## Daily report (`daily.txt`)
 
