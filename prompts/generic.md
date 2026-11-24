@@ -14,6 +14,8 @@ Open every review with three paragraphs, before the first finding, each 30 words
 
 Check every review comment before it goes into the draft: turn the comment into an open question to the author ("there is a problem X" becomes "how do you plan to overcome X?"), have two subagents on different models answer it independently from the code, and keep the comment only if the question still stands after both answers. Drop it when either answer shows the code already overcomes X.
 
+The open-question form is for that check and for asking a human author to clarify. On a pull request by a bot, do not ask: fix each problem that survives the check in the pull request itself.
+
 When I give a direction - a design change, a fix to apply, a different approach - open the reply with how good it is, before acting on it. If it breaks something (a guarantee, a caller, an earlier decision, a test), say so in the first sentence, then what to do instead or how to keep both.
 
 Before drafting a review, read the comments already on the pull request: review threads, review bodies and issue-level comments. Drop any finding that a bot or another reviewer already raised; do not restate it. Keep it only when the code changed since that comment and the problem is still there.
