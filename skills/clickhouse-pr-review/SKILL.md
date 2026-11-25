@@ -1,6 +1,6 @@
 ---
 name: clickhouse-pr-review
-description: Inspect open pull requests in ClickHouse/ClickHouse, skip drafts and PRs whose CI is still running, decide which open PRs merit a non-trivial review, and append architecture-first draft reviews to ~/.claude/review/findings.md for the user to approve before posting. Reviews lead with problem-framing / approach / module-boundary / failure-mode / test-level concerns and only descend to correctness and style nits once the structure looks sound. Trigger phrases — "review open ClickHouse PRs", "inspect ClickHouse PRs", "find non-trivial PRs to review", or invocation via the hourly /loop cron job.
+description: Inspect open pull requests in ClickHouse/ClickHouse, skip drafts and PRs whose CI is still running, decide which open PRs merit a non-trivial review, have one agent enumerate all findings and two agents on different models analyse each finding, and append architecture-first draft reviews to ~/.claude/review/findings.md for the user to approve before posting. Reviews lead with problem-framing / approach / module-boundary / failure-mode / test-level concerns and only descend to correctness and style nits once the structure looks sound. Trigger phrases — "review open ClickHouse PRs", "inspect ClickHouse PRs", "find non-trivial PRs to review", or invocation via the hourly /loop cron job.
 ---
 
 # ClickHouse PR Review
@@ -87,9 +87,19 @@ For each PR:
 
 4. If after reading the code there is no substantive feedback, treat as trivial (still append to `seen.txt`, skip findings).
 
+## Step 2b — Enumerate, analyse and collect the findings
+
+A **finding** is one claim that the PR has one defect: a short title, the `file:line` that anchors it, the failure it causes, and the level from Step 2.3 (a–e or detail). A finding is a candidate until its analysis keeps it.
+
+1. **Enumerate.** One enumeration agent does the review of Step 2.3. It reads the diff, the PR body, and every review thread, review body and issue-level comment, and returns all findings as a numbered list. It does not rank, merge or drop findings. It marks a finding that a bot or another reviewer already raised on the current code as `already raised`, with the comment URL.
+2. **Analyse.** Give each finding that is not `already raised` to two analysis agents on different models, all in parallel. Each agent gets only that finding and the PR. It turns the finding into an open question to the author ("how do you plan to overcome X?") and answers it from the code: `stands` with the `file:line` evidence, or `overcome` with the code that handles X.
+3. **Collect.** Wait for every analysis agent. Keep a finding only when both answers say `stands`. Rank the kept findings by severity and put the two most serious into the draft of Step 3. List the dropped findings, each with its reason, under `### Open questions for the user`.
+
+If no finding is kept, treat the PR as trivial (append to `seen.txt`, skip findings).
+
 ## Step 3 — Append a draft review entry
 
-For each PR that yields real feedback, append a block to `findings.md` in this exact format (do NOT replace prior content):
+For each PR with a kept finding from Step 2b, append a block to `findings.md` in this exact format (do NOT replace prior content):
 
 ```
 ## PR #<N> — <title>
